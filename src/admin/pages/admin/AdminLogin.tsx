@@ -4,7 +4,7 @@ import { Heart, Eye, EyeOff, Loader2, ShieldCheck } from 'lucide-react';
 import { Button } from '@/admin/components/ui/button';
 import { Input } from '@/admin/components/ui/input';
 import { Label } from '@/admin/components/ui/label';
-import { useAdminAuth } from '../AdminAuth';
+import { useAdminAuth } from '../../AdminAuth';
 
 export default function AdminLogin() {
   const { login } = useAdminAuth();
