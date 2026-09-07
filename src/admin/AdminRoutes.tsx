@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Route } from "react-router-dom";
+import { Navigate, Route, useLocation } from "react-router-dom";
 import { Toaster } from "@/admin/components/ui/toaster";
 import { Toaster as Sonner } from "@/admin/components/ui/sonner";
 import { TooltipProvider } from "@/admin/components/ui/tooltip";
@@ -41,39 +41,55 @@ export function AdminProviders({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Admin routes mounted under /admin in the main app. */
-export function AdminRoutes() {
+/** Blocks admin pages for signed-out visitors and remembers where they wanted to go. */
+function AdminGuard({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAdminAuth();
+  const location = useLocation();
 
   if (!isAuthenticated) {
-    // No admin routes are reachable until signed in.
-    return (
-      <Route path="*" element={<AdminLogin />} />
-    );
+    return <Navigate to="/admin/login" replace state={{ from: location.pathname }} />;
   }
+  return <>{children}</>;
+}
 
+/**
+ * Admin routes mounted under /admin in the main app.
+ * NOTE: this returns a static <Route> tree with no hooks, so it can be
+ * safely called as {AdminRoutes()} inside <Routes> (Routes only accepts
+ * Route/Fragment children — custom component children are ignored).
+ */
+export function AdminRoutes() {
   return (
-    <Route path="admin" element={<AdminShell />}>
-      <Route index element={<AdminDashboard />} />
-      <Route path="dashboard" element={<AdminDashboard />} />
-      <Route path="profiles" element={<Profiles />} />
-      <Route path="users" element={<UserManagement />} />
-      <Route path="verification" element={<VerificationPage />} />
-      <Route path="interests" element={<InterestsPage />} />
-      <Route path="messages" element={<MessagesPage />} />
-      <Route path="membership" element={<Membership />} />
-      <Route path="success-stories" element={<SuccessStoriesPage />} />
-      <Route path="reports" element={<ReportsPage />} />
-      <Route path="complaints" element={<ComplaintsPage />} />
-      <Route path="caste" element={<CasteManagement />} />
-      <Route path="caste-management" element={<CasteManagement />} />
-      <Route path="edit-profile" element={<EditProfile />} />
-      <Route path="settings" element={<SettingsPage />} />
-      {/* Sidebar links without dedicated pages yet */}
-      <Route path="locations" element={<SettingsPage />} />
-      <Route path="horoscope" element={<SettingsPage />} />
-      <Route path="premium" element={<SettingsPage />} />
-      <Route path="*" element={<NotFound />} />
+    <Route path="admin">
+      <Route path="login" element={<AdminLogin />} />
+      <Route
+        element={
+          <AdminGuard>
+            <AdminShell />
+          </AdminGuard>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="profiles" element={<Profiles />} />
+        <Route path="users" element={<UserManagement />} />
+        <Route path="verification" element={<VerificationPage />} />
+        <Route path="interests" element={<InterestsPage />} />
+        <Route path="messages" element={<MessagesPage />} />
+        <Route path="membership" element={<Membership />} />
+        <Route path="success-stories" element={<SuccessStoriesPage />} />
+        <Route path="reports" element={<ReportsPage />} />
+        <Route path="complaints" element={<ComplaintsPage />} />
+        <Route path="caste" element={<CasteManagement />} />
+        <Route path="caste-management" element={<CasteManagement />} />
+        <Route path="edit-profile" element={<EditProfile />} />
+        <Route path="settings" element={<SettingsPage />} />
+        {/* Sidebar links without dedicated pages yet */}
+        <Route path="locations" element={<SettingsPage />} />
+        <Route path="horoscope" element={<SettingsPage />} />
+        <Route path="premium" element={<SettingsPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
     </Route>
   );
 }

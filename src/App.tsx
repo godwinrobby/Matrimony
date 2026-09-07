@@ -299,9 +299,7 @@ export default function App() {
   if (location.pathname.startsWith('/admin')) {
     return (
       <AdminProviders>
-        <Routes>
-          <AdminRoutes />
-        </Routes>
+        <Routes>{AdminRoutes()}</Routes>
       </AdminProviders>
     );
   }
