@@ -1,0 +1,6 @@
+{
+  "name": "Hindu Matrimony",
+  "description": "A premium, elegant, and secure Hindu Matrimony website featuring modern frosted-glass aesthetics, AI-powered personality matchmaking, and traditional Kundli Milan horoscope matching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
