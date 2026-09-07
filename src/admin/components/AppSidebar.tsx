@@ -27,32 +27,36 @@ import {
 } from "@/admin/components/ui/sidebar";
 
 const mainItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Profiles", url: "/profiles", icon: Users },
-  { title: "User Management", url: "/users", icon: UserCog },
-  { title: "Verification Queue", url: "/verification", icon: UserCheck },
-  { title: "Interests", url: "/interests", icon: Heart },
-  { title: "Messages", url: "/messages", icon: MessageSquare },
+  { title: "Dashboard", url: "/admin/", icon: LayoutDashboard },
+  { title: "Profiles", url: "/admin/profiles", icon: Users },
+  { title: "User Management", url: "/admin/users", icon: UserCog },
+  { title: "Verification Queue", url: "/admin/verification", icon: UserCheck },
+  { title: "Interests", url: "/admin/interests", icon: Heart },
+  { title: "Messages", url: "/admin/messages", icon: MessageSquare },
 ];
 
 const businessItems = [
-  { title: "Membership Plans", url: "/membership", icon: CreditCard },
-  { title: "Success Stories", url: "/success-stories", icon: Star },
-  { title: "Reports & Analytics", url: "/reports", icon: BarChart3 },
-  { title: "Complaints", url: "/complaints", icon: Shield },
+  { title: "Membership Plans", url: "/admin/membership", icon: CreditCard },
+  { title: "Success Stories", url: "/admin/success-stories", icon: Star },
+  { title: "Reports & Analytics", url: "/admin/reports", icon: BarChart3 },
+  { title: "Complaints", url: "/admin/complaints", icon: Shield },
 ];
 
 const configItems = [
-  { title: "Caste Management", url: "/caste", icon: BookOpen },
-  { title: "Edit Profile", url: "/edit-profile", icon: UserCog },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Caste Management", url: "/admin/caste", icon: BookOpen },
+  { title: "Edit Profile", url: "/admin/edit-profile", icon: UserCog },
+  { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname } = useLocation();
-  const isActive = (path: string) => (path === "/" ? pathname === "/" : pathname.startsWith(path));
+  const isActive = (path: string) => {
+    const target = path.replace(/\/+$/, '') || '/';
+    const current = pathname.replace(/\/+$/, '') || '/';
+    return target === '/' ? current === '/' : current.startsWith(target);
+  };
 
   const renderGroup = (label: string, items: typeof mainItems) => (
     <SidebarGroup>

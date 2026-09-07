@@ -20,22 +20,22 @@ const Navigation = () => {
     {
       icon: LayoutDashboard,
       label: "Dashboard",
-      path: "/",
+      path: "/admin",
     },
     {
       icon: Users,
       label: "Profiles",
-      path: "/profiles",
+      path: "/admin/profiles",
     },
     {
       icon: UserCog,
       label: "Edit Profile",
-      path: "/edit-profile",
+      path: "/admin/edit-profile",
     },
     {
       icon: CreditCard,
       label: "Membership",
-      path: "/membership",
+      path: "/admin/membership",
     },
   ];
 
