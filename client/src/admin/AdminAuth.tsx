@@ -9,7 +9,7 @@ export interface AdminSession {
 interface AdminAuthContextValue {
   session: AdminSession | null;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => { ok: boolean; error?: string };
+  login: (username: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
 }
 

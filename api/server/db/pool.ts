@@ -21,6 +21,6 @@ export async function query<T = mysql.RowDataPacket>(
   sql: string,
   params: unknown[] = []
 ): Promise<T[]> {
-  const [rows] = await pool.query<T[]>(sql, params);
-  return rows;
+  const [rows] = await (pool.query as any)(sql, params);
+  return rows as T[];
 }

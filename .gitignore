@@ -26,6 +26,7 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-dist/
+
+# Server build artifact (legacy bundle)
 server.js.map
 server.js

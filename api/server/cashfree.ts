@@ -47,11 +47,11 @@ router.post("/cashfree/create-order", async (req, res) => {
       });
 
       if (cfResponse.ok) {
-        const cfData = await cfResponse.json();
+        const cfData = (await cfResponse.json()) as Record<string, unknown>;
         return res.json({
           success: true,
-          orderId: cfData.order_id,
-          paymentSessionId: cfData.payment_session_id,
+          orderId: cfData.order_id as string,
+          paymentSessionId: cfData.payment_session_id as string,
           isMock: false
         });
       } else {
