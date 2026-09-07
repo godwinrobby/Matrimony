@@ -4,6 +4,8 @@ import { Toaster } from "@/admin/components/ui/toaster";
 import { Toaster as Sonner } from "@/admin/components/ui/sonner";
 import { TooltipProvider } from "@/admin/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AdminAuthProvider, useAdminAuth } from "./AdminAuth";
+import AdminLogin from "./pages/admin/AdminLogin";
 import AdminShell from "./components/AdminShell";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
@@ -27,18 +29,29 @@ const queryClient = new QueryClient();
 /** Wraps the admin section with its own providers + toasters. */
 export function AdminProviders({ children }: { children: React.ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        {children}
-      </TooltipProvider>
-    </QueryClientProvider>
+    <AdminAuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          {children}
+        </TooltipProvider>
+      </QueryClientProvider>
+    </AdminAuthProvider>
   );
 }
 
 /** Admin routes mounted under /admin in the main app. */
 export function AdminRoutes() {
+  const { isAuthenticated } = useAdminAuth();
+
+  if (!isAuthenticated) {
+    // No admin routes are reachable until signed in.
+    return (
+      <Route path="*" element={<AdminLogin />} />
+    );
+  }
+
   return (
     <Route path="admin" element={<AdminShell />}>
       <Route index element={<AdminDashboard />} />

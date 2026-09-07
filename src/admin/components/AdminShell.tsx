@@ -1,13 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/admin/components/ui/sidebar";
 import { AppSidebar } from "@/admin/components/AppSidebar";
 import { Button } from "@/admin/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/admin/components/ui/avatar";
 import { Badge } from "@/admin/components/ui/badge";
-import { Bell, Search } from "lucide-react";
+import { Bell, LogOut, Search } from "lucide-react";
 import { Input } from "@/admin/components/ui/input";
+import { useAdminAuth } from "../AdminAuth";
 
 export default function AdminShell() {
+  const { session, logout } = useAdminAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/admin", { replace: true });
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -33,12 +42,27 @@ export default function AdminShell() {
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/placeholder.svg" />
-                  <AvatarFallback className="bg-gradient-romantic text-primary-foreground text-xs">AD</AvatarFallback>
+                  <AvatarFallback className="bg-gradient-romantic text-primary-foreground text-xs">
+                    {(session?.username ?? 'ad').slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:block">
-                  <div className="text-sm font-medium leading-tight">Admin User</div>
-                  <div className="text-[11px] text-muted-foreground leading-tight">Super Admin</div>
+                  <div className="text-sm font-medium leading-tight capitalize">
+                    {session?.username ?? 'Admin User'}
+                  </div>
+                  <div className="text-[11px] text-muted-foreground leading-tight">
+                    {session?.role ?? 'Super Admin'}
+                  </div>
                 </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleLogout}
+                  title="Sign out"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
               </div>
             </div>
           </header>
