@@ -279,3 +279,13 @@ html {
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
+
+/* Gradient / shadow / transition utilities used by the admin UI (Tailwind v4 theme hooks) */
+@theme inline {
+  --background-image-gradient-romantic: var(--gradient-romantic);
+  --background-image-gradient-soft: var(--gradient-soft);
+  --background-image-gradient-sunset: var(--gradient-sunset);
+  --shadow-romantic: var(--shadow-romantic);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-elegant: var(--shadow-elegant);
+}
