@@ -57,7 +57,9 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Hindu Matrimony Server running on http://0.0.0.0:${PORT}`);
+    const source = process.env.PORT ? `PORT=${process.env.PORT} (env)` : "default 3000";
+    console.log(`Hindu Matrimony Server listening on 0.0.0.0:${PORT} [${source}]`);
+    console.log(`Mode: ${process.env.NODE_ENV === "production" ? "production" : "development"}`);
   });
 }
 
