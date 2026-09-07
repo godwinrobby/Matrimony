@@ -11,6 +11,7 @@ import punditChatRouter from "./server/punditChat";
 import profileChatRouter from "./server/profileChat";
 import cashfreeRouter from "./server/cashfree";
 import aiSearchRouter from "./server/aiSearch";
+import authRouter from "./server/routes/auth";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ const PORT = Number(process.env.PORT) || 3000;
 app.use(express.json());
 
 // Mount API routes
+app.use("/api/auth", authRouter);
 app.use("/api", compatibilityRouter);
 app.use("/api", horoscopeRouter);
 app.use("/api", dailyHoroscopeRouter);

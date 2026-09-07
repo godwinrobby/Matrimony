@@ -8,7 +8,8 @@
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "migrate": "tsx server/db/migrate.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -43,6 +44,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@tanstack/react-query": "^5.56.2",
     "@vitejs/plugin-react": "^5.0.4",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -51,8 +53,10 @@
     "embla-carousel-react": "^8.3.0",
     "express": "^4.21.2",
     "input-otp": "^1.2.4",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
+    "mysql2": "^3.24.3",
     "next-themes": "^0.4.6",
     "react": "^19.0.1",
     "react-day-picker": "^8.10.1",
@@ -68,7 +72,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

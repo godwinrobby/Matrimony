@@ -18,20 +18,22 @@ export default function AdminLogin() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setBusy(true);
-    // Simulate a network round-trip for a real feel.
-    window.setTimeout(() => {
-      const result = login(username, password);
+    try {
+      const result = await login(username, password);
       setBusy(false);
       if (result.ok) {
         navigate(from, { replace: true });
       } else {
         setError(result.error ?? 'Login failed.');
       }
-    }, 400);
+    } catch {
+      setBusy(false);
+      setError('Unexpected error. Please try again.');
+    }
   };
 
   return (

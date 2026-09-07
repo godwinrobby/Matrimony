@@ -34,18 +34,44 @@ const AdminAuthContext = createContext<AdminAuthContextValue | null>(null);
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<AdminSession | null>(readSession);
 
-  const login = useCallback((username: string, password: string) => {
-    const record = ADMIN_CREDENTIALS[username.trim().toLowerCase()];
-    if (!record) return { ok: false, error: 'Unknown username.' };
-    if (record.password !== password) return { ok: false, error: 'Incorrect password.' };
-    const next: AdminSession = {
-      username: username.trim().toLowerCase(),
-      role: record.role,
-      loginAt: new Date().toISOString(),
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    setSession(next);
-    return { ok: true };
+  const login = useCallback(async (username: string, password: string) => {
+    const email = username.trim().toLowerCase();
+    try {
+      const res = await fetch('/api/auth/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.user) {
+        // Persist tokens + display session.
+        localStorage.setItem('soulmate_admin_token', data.accessToken);
+        localStorage.setItem('soulmate_admin_refresh', data.refreshToken);
+        const next: AdminSession = {
+          username: data.user.email ?? email,
+          role: data.user.role === 'admin' ? 'Super Admin' : 'Admin',
+          loginAt: new Date().toISOString(),
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        setSession(next);
+        return { ok: true };
+      }
+      return { ok: false, error: data.error ?? 'Login failed.' };
+    } catch {
+      // Offline / API unavailable: fall back to the built-in demo account.
+      const record = ADMIN_CREDENTIALS[email];
+      if (record && record.password === password) {
+        const next: AdminSession = {
+          username: email,
+          role: record.role,
+          loginAt: new Date().toISOString(),
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        setSession(next);
+        return { ok: true };
+      }
+      return { ok: false, error: 'Cannot reach the auth server. Check your connection.' };
+    }
   }, []);
 
   const logout = useCallback(() => {
