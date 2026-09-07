@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/admin/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/admin/components/ui/sidebar";
 import { AppSidebar } from "@/admin/components/AppSidebar";
 import { Button } from "@/admin/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/admin/components/ui/avatar";
@@ -10,9 +10,8 @@ import { Input } from "@/admin/components/ui/input";
 export default function AdminShell() {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar />
-        <div className="flex-1 flex flex-col min-w-0">
+      <AppSidebar />
+      <SidebarInset className="min-h-screen flex flex-col w-full min-w-0 bg-background">
           <header className="h-14 flex items-center justify-between border-b border-border bg-card px-4 sticky top-0 z-30">
             <div className="flex items-center gap-3">
               <SidebarTrigger />
@@ -46,8 +45,7 @@ export default function AdminShell() {
           <main className="flex-1 p-6 overflow-auto">
             <Outlet />
           </main>
-        </div>
-      </div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
