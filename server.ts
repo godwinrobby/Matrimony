@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
@@ -19,6 +20,11 @@ const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
+
+// Allow the deployed frontend (static hosting) to call this API.
+if (process.env.CORS_ORIGIN) {
+  app.use(cors({ origin: process.env.CORS_ORIGIN.split(','), credentials: true }));
+}
 
 // Mount API routes
 app.use("/api/auth", authRouter);

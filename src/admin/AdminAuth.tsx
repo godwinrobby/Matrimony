@@ -37,7 +37,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (username: string, password: string) => {
     const email = username.trim().toLowerCase();
     try {
-      const res = await fetch('/api/auth/admin/login', {
+      const apiBase = (import.meta as { env?: Record<string, string> }).env?.VITE_API_BASE_URL ?? '';
+      const res = await fetch(`${apiBase}/api/auth/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
