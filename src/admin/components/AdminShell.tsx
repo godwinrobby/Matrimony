@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/admin/components/ui/sidebar";
 import { AppSidebar } from "@/admin/components/AppSidebar";
 import { Button } from "@/admin/components/ui/button";
@@ -10,11 +10,11 @@ import { useAdminAuth } from "../AdminAuth";
 
 export default function AdminShell() {
   const { session, logout } = useAdminAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
+    // Clearing the session re-renders the admin route tree into the
+    // login screen via the guard in AdminRoutes — no navigation needed.
     logout();
-    navigate("/admin", { replace: true });
   };
 
   return (
@@ -55,6 +55,7 @@ export default function AdminShell() {
                   </div>
                 </div>
                 <Button
+                  type="button"
                   variant="ghost"
                   size="icon"
                   onClick={handleLogout}
