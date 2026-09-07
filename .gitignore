@@ -28,4 +28,3 @@ lerna-debug.log*
 *.sw?
 dist/
 server.js.map
-server.js
