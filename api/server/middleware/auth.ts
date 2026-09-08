@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { verifyAccessToken } from '../auth/tokens';
+import { verifyAccessToken } from '../auth/tokens.js';
 
 export interface AuthUser {
   id: number;

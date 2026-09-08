@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ai } from "./ai";
+import { ai } from "./ai.js";
 
 const router = Router();
 

@@ -5,14 +5,14 @@ import express from "express";
 import dotenv from "dotenv";
 
 // Import modular routers
-import compatibilityRouter from "./server/compatibility";
-import horoscopeRouter from "./server/horoscope";
-import dailyHoroscopeRouter from "./server/dailyHoroscope";
-import punditChatRouter from "./server/punditChat";
-import profileChatRouter from "./server/profileChat";
-import cashfreeRouter from "./server/cashfree";
-import aiSearchRouter from "./server/aiSearch";
-import authRouter from "./server/routes/auth";
+import compatibilityRouter from "./server/compatibility.js";
+import horoscopeRouter from "./server/horoscope.js";
+import dailyHoroscopeRouter from "./server/dailyHoroscope.js";
+import punditChatRouter from "./server/punditChat.js";
+import profileChatRouter from "./server/profileChat.js";
+import cashfreeRouter from "./server/cashfree.js";
+import aiSearchRouter from "./server/aiSearch.js";
+import authRouter from "./server/routes/auth.js";
 
 dotenv.config();
 
@@ -37,10 +37,11 @@ app.use("/api", cashfreeRouter);
 app.use("/api", aiSearchRouter);
 
 // Optional: serve a built frontend if it exists (keeps single-origin option).
-const distPath = path.join(process.cwd(), 'dist');
-if (fs.existsSync(distPath)) {
-  app.use(express.static(distPath));
-  app.get('*', (req, res) => res.sendFile(path.join(distPath, 'index.html')));
+// Note: in the api-only clone there will be no frontend dist, so this is skipped.
+const frontendDistPath = path.join(process.cwd(), 'frontend-dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  app.get('*', (req, res) => res.sendFile(path.join(frontendDistPath, 'index.html')));
 }
 
 app.listen(PORT, "0.0.0.0", () => {

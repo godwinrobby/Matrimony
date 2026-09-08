@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ai } from "./ai";
+import { ai } from "./ai.js";
 import { Type } from "@google/genai";
 
 const router = Router();

@@ -3,9 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
+    "scripts": {
     "dev": "tsx watch server.ts",
-    "start": "tsx server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "migrate": "tsx server/db/migrate.ts",
     "lint": "tsc --noEmit"
   },

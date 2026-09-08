@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { RowDataPacket } from 'mysql2/promise';
-import { query } from '../db/pool';
-import { encryptField, decryptField } from '../db/crypto';
+import { query } from '../db/pool.js';
+import { encryptField, decryptField } from '../db/crypto.js';
 import {
   signAccessToken,
   createRefreshToken,
@@ -10,8 +10,8 @@ import {
   verifyPassword,
   REFRESH_TOKEN_TTL_DAYS,
   AccessPayload,
-} from '../auth/tokens';
-import { requireAuth, requireAdmin, AuthUser } from '../middleware/auth';
+} from '../auth/tokens.js';
+import { requireAuth, requireAdmin, AuthUser } from '../middleware/auth.js';
 
 const router = Router();
 
